@@ -2,7 +2,7 @@ const express = require('express');
 
 
 const app =express();
-const port =3001;
+const port =3000;
 
 
 const shoes = [
@@ -32,13 +32,15 @@ app.get('/greetings/:username',(req , res)=>{
 
 
 app.get('/roll/:number',(req,res)=>{
-let number =req.params.number;
-if(isNaN(number)){
 
-    res.send("You must specify a number");
+let range =req.params.number;
+let randomNumber=Math.floor(Math.random() *(range)) 
+if(randomNumber>=0 &&randomNumber<=range && !isNaN(range)){
+res.send(`You rolled a ${randomNumber}`)
+    
 }
 else {
-    res.send(`You rolled a ${req.params.number}`);
+    res.send("You must specify a number within the range");
 }
 
 })
@@ -123,7 +125,12 @@ app.get('/collectibles/:index' ,(req,res)=>{
 
         }
         else{
-          res.send(`specify in url maxPrice or minPrice or price or type`);
+          shoes.map((item,index)=>{
+            msg+=`shoe ${index}    name:  ${item.name} , price:   ${item.price} ,type : ${item.type} <br>`;            
+
+          })
+                    
+          res.send(msg);
         }
    
 
